@@ -5,6 +5,7 @@ import request from './request';
 import userUtil from './userUtil';
 import comment from './comment';
 import admin from './admin';
+import alert from './alert';
 
 export default combineReducers({
   auth,
@@ -12,5 +13,6 @@ export default combineReducers({
   request,
   userUtil,
   comment,
-  admin
+  admin,
+  alert
 });

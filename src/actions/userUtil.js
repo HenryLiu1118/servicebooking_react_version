@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setAlert } from './alert';
 import {
   GETLANGUAGESFAIL,
   GETSERVICETYPESFAIL,
@@ -16,6 +17,9 @@ export const getLanguages = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: GETLANGUAGESFAIL
     });
@@ -44,6 +48,9 @@ export const getRoles = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: GETROLESFAIL
     });

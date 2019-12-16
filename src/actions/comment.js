@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { setAlert } from './alert';
+
 import {
   GETCOMMENTS_FAIL,
   GETCOMMENTS,
@@ -17,6 +19,9 @@ export const getComments = requestId => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: GETCOMMENTS_FAIL
     });
@@ -40,7 +45,12 @@ export const postComment = (formData, requestId) => async dispatch => {
       type: POSTCOMMENT,
       payload: res.data
     });
+
+    dispatch(setAlert('Comment Posted', 'success'));
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: POSTCOMMENT_FAIL
     });
@@ -57,6 +67,9 @@ export const checkDuplicateComment = requestId => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: GETCOMMENT
     });

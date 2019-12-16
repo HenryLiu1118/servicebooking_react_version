@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setAlert } from './alert';
 import {
   GETMYPROVIDE,
   GETMYPROVIDE_FAIL,
@@ -27,7 +28,17 @@ export const getProvides = (
       type: GETPROVIDES,
       payload: res.data
     });
+    if (page === 0) {
+      if (res.data.size > 0) {
+        dispatch(setAlert(`Total ${res.data.size} found!`, 'success'));
+      } else {
+        dispatch(setAlert('Found 0', 'warning'));
+      }
+    }
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: GETPROVIDES_FAIL
     });
@@ -42,6 +53,9 @@ export const getMyProvide = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: GETMYPROVIDE_FAIL
     });
@@ -61,8 +75,13 @@ export const updateMyService = (formData, history) => async dispatch => {
       type: GETMYPROVIDE,
       payload: res.data
     });
+
+    dispatch(setAlert('Service Updated Successfully!', 'success'));
     history.push('/dashboard/profile');
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: GETMYPROVIDE_FAIL
     });

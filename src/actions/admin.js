@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { setAlert } from './alert';
 import {
   ADMINGETLANGUAGES_FAIL,
   ADMINGETLANGUAGES,
@@ -24,6 +25,9 @@ export const adminGetLanguages = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: ADMINGETLANGUAGES_FAIL
     });
@@ -38,6 +42,9 @@ export const adminGetServiceType = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: ADMINGETSERVICETYPES_FAIL
     });
@@ -52,6 +59,9 @@ export const adminGetRole = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: ADMINGETROLES_FAIL
     });
@@ -66,6 +76,9 @@ export const adminGetUser = () => async dispatch => {
       payload: res.data
     });
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: ADMINGETUSERS_FAIL
     });
@@ -84,7 +97,11 @@ export const adminPostLanguage = formData => async dispatch => {
       type: ADMINPOSTLANGUAGE,
       payload: res.data
     });
+    dispatch(setAlert('Language Created', 'success'));
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: ADMINPOSTLANGUAGE_FAIL
     });
@@ -103,7 +120,11 @@ export const adminPostServiceType = formData => async dispatch => {
       type: ADMINPOSTSERVICETYPE,
       payload: res.data
     });
+    dispatch(setAlert('Service Created', 'success'));
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: ADMINPOSTSERVICETYPE_FAIL
     });
@@ -122,7 +143,12 @@ export const adminPostRole = formData => async dispatch => {
       type: ADMINPOSTROLE,
       payload: res.data
     });
+
+    dispatch(setAlert('Role Created', 'success'));
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: ADMINPOSTROLE_FAIL
     });

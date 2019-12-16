@@ -1,5 +1,7 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
+import { setAlert } from './alert';
+
 import {
   LOGIN_FAIL,
   USER_LOAD,
@@ -46,7 +48,12 @@ export const login = (username, password) => async dispatch => {
       type: LOGIN_SUCCESS,
       payload: res.data
     });
+
+    dispatch(setAlert('Login Successfully!', 'success'));
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: LOGIN_FAIL
     });
@@ -66,7 +73,12 @@ export const register = formData => async dispatch => {
       type: REGISTER_SUCCESS,
       payload: res.data
     });
+
+    dispatch(setAlert('Account Created', 'success'));
   } catch (err) {
+    const error = err.response.data.error;
+    dispatch(setAlert(error, 'danger'));
+
     dispatch({
       type: REGISTER_FAIL
     });
