@@ -42,7 +42,7 @@ export const getServiceTypes = () => async dispatch => {
 
 export const getRoles = () => async dispatch => {
   try {
-    const res = await axios.get('api/users/role');
+    const res = await axios.get('/api/users/role');
     dispatch({
       type: GETROLES,
       payload: res.data

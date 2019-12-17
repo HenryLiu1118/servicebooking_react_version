@@ -37,7 +37,14 @@ export const getProvides = (
     }
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
 
     dispatch({
       type: GETPROVIDES_FAIL
@@ -54,7 +61,14 @@ export const getMyProvide = () => async dispatch => {
     });
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
 
     dispatch({
       type: GETMYPROVIDE_FAIL
@@ -80,7 +94,14 @@ export const updateMyService = (formData, history) => async dispatch => {
     history.push('/dashboard/profile');
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
 
     dispatch({
       type: GETMYPROVIDE_FAIL

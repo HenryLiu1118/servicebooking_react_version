@@ -45,7 +45,9 @@ export default function(state = initialState, action) {
     case GETROLES:
       return {
         ...state,
-        roles: payload
+        roles: payload.map(item => {
+          return item.name;
+        })
       };
     case GETROLESFAIL:
       return {

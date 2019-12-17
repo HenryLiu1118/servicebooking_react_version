@@ -77,7 +77,14 @@ export const adminGetUser = () => async dispatch => {
     });
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
 
     dispatch({
       type: ADMINGETUSERS_FAIL
@@ -100,8 +107,14 @@ export const adminPostLanguage = formData => async dispatch => {
     dispatch(setAlert('Language Created', 'success'));
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
 
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
     dispatch({
       type: ADMINPOSTLANGUAGE_FAIL
     });
@@ -123,8 +136,14 @@ export const adminPostServiceType = formData => async dispatch => {
     dispatch(setAlert('Service Created', 'success'));
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
 
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
     dispatch({
       type: ADMINPOSTSERVICETYPE_FAIL
     });

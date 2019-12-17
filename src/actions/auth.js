@@ -52,7 +52,14 @@ export const login = (username, password) => async dispatch => {
     dispatch(setAlert('Login Successfully!', 'success'));
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
 
     dispatch({
       type: LOGIN_FAIL
@@ -60,7 +67,7 @@ export const login = (username, password) => async dispatch => {
   }
 };
 
-export const register = formData => async dispatch => {
+export const register = (formData, history) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -74,10 +81,18 @@ export const register = formData => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Account Created', 'success'));
+    dispatch(setAlert('Account Created!', 'success'));
+    history.push('auth/login');
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
 
     dispatch({
       type: REGISTER_FAIL
@@ -97,8 +112,19 @@ export const updateProfile = (formData, history) => async dispatch => {
       type: USER_LOAD,
       payload: res.data
     });
+    dispatch(setAlert('Account Updated!', 'success'));
     history.push('/dashboard/profile');
   } catch (err) {
+    const error = err.response.data.error;
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
+
     dispatch({
       type: LOGIN_FAIL
     });

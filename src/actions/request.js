@@ -30,7 +30,14 @@ export const UpdateRequest = (
     history.push('/requests');
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
 
     dispatch({
       type: UPDATEREQUEST_FAIL
@@ -55,7 +62,14 @@ export const PostRequest = (formData, history) => async dispatch => {
     history.push('/requests');
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
 
     dispatch({
       type: POSTREQUEST_FAIL

@@ -46,10 +46,17 @@ export const postComment = (formData, requestId) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(setAlert('Comment Posted', 'success'));
+    dispatch(setAlert('Comment Posted!', 'success'));
   } catch (err) {
     const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach(e => dispatch(setAlert(e, 'danger')));
+    }
+    if (error) {
+      dispatch(setAlert(error, 'danger'));
+    }
 
     dispatch({
       type: POSTCOMMENT_FAIL
