@@ -5,7 +5,6 @@ import {
   GETCOMMENTS_FAIL,
   GETCOMMENTS,
   GETCOMMENT,
-  SET_COMMENT,
   POSTCOMMENT,
   POSTCOMMENT_FAIL
 } from './types';
@@ -66,8 +65,6 @@ export const postComment = (formData, requestId) => async dispatch => {
 
 export const checkDuplicateComment = requestId => async dispatch => {
   try {
-    dispatch(setComment());
-
     const res = await axios.get(`/api/comment/check/${requestId}`);
     dispatch({
       type: GETCOMMENT,
@@ -82,5 +79,3 @@ export const checkDuplicateComment = requestId => async dispatch => {
     });
   }
 };
-
-const setComment = () => dispatch => dispatch({ type: SET_COMMENT });

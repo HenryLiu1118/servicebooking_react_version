@@ -24,6 +24,7 @@ const Comment_Form = ({
   const onSubmit = e => {
     e.preventDefault();
     postComment(formData, requestId);
+    setFormData({ detail: '' });
   };
   return (
     <Fragment>
@@ -61,7 +62,6 @@ const Comment_Form = ({
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
   comment: state.comment
 });
 

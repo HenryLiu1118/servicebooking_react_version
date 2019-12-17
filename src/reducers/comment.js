@@ -3,7 +3,6 @@ import {
   GETCOMMENTS_FAIL,
   GETCOMMENT,
   GETCOMMENT_FAIL,
-  SET_COMMENT,
   POSTCOMMENT,
   POSTCOMMENT_FAIL
 } from '../actions/types';
@@ -33,7 +32,6 @@ export default function(state = initialState, action) {
         myComment: payload
       };
     case POSTCOMMENT_FAIL:
-    case SET_COMMENT:
     case GETCOMMENT_FAIL:
       return {
         ...state,
