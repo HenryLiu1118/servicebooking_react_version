@@ -1,6 +1,7 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import { setAlert } from './alert';
+import proxy from '../utils/proxy';
 
 import {
   LOGIN_FAIL,
@@ -21,7 +22,7 @@ export const loadUser = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get('/api/userinfo/me');
+    const res = await axios.get(`${proxy}/api/userinfo/me`);
     dispatch({
       type: USER_LOAD,
       payload: res.data
@@ -42,7 +43,7 @@ export const login = (username, password) => async dispatch => {
   const body = JSON.stringify({ username, password });
 
   try {
-    const res = await axios.post('/api/users/login', body, config);
+    const res = await axios.post(`${proxy}/api/users/login`, body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,
@@ -75,7 +76,11 @@ export const register = (formData, history) => async dispatch => {
   };
 
   try {
-    const res = await axios.post('/api/users/register', formData, config);
+    const res = await axios.post(
+      `${proxy}/api/users/register`,
+      formData,
+      config
+    );
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
@@ -107,7 +112,7 @@ export const updateProfile = (formData, history) => async dispatch => {
         'Content-Type': 'application/json'
       }
     };
-    const res = await axios.put('/api/userinfo', formData, config);
+    const res = await axios.put(`${proxy}/api/userinfo`, formData, config);
     dispatch({
       type: USER_LOAD,
       payload: res.data

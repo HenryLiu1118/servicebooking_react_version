@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
+import proxy from '../utils/proxy';
+
 import {
   ADMINGETLANGUAGES_FAIL,
   ADMINGETLANGUAGES,
@@ -19,7 +21,7 @@ import {
 
 export const adminGetLanguages = () => async dispatch => {
   try {
-    const res = await axios.get('/api/admin/language');
+    const res = await axios.get(`${proxy}/api/admin/language`);
     dispatch({
       type: ADMINGETLANGUAGES,
       payload: res.data
@@ -36,7 +38,7 @@ export const adminGetLanguages = () => async dispatch => {
 
 export const adminGetServiceType = () => async dispatch => {
   try {
-    const res = await axios.get('/api/admin/serviceType');
+    const res = await axios.get(`${proxy}/api/admin/serviceType`);
     dispatch({
       type: ADMINGETSERVICETYPES,
       payload: res.data
@@ -53,7 +55,7 @@ export const adminGetServiceType = () => async dispatch => {
 
 export const adminGetRole = () => async dispatch => {
   try {
-    const res = await axios.get('/api/admin/role');
+    const res = await axios.get(`${proxy}/api/admin/role`);
     dispatch({
       type: ADMINGETROLES,
       payload: res.data
@@ -70,7 +72,7 @@ export const adminGetRole = () => async dispatch => {
 
 export const adminGetUser = () => async dispatch => {
   try {
-    const res = await axios.get('/api/admin/user');
+    const res = await axios.get(`${proxy}/api/admin/user`);
     dispatch({
       type: ADMINGETUSERS,
       payload: res.data
@@ -99,7 +101,11 @@ export const adminPostLanguage = formData => async dispatch => {
     }
   };
   try {
-    const res = await axios.post('/api/admin/language', formData, config);
+    const res = await axios.post(
+      `${proxy}/api/admin/language`,
+      formData,
+      config
+    );
     dispatch({
       type: ADMINPOSTLANGUAGE,
       payload: res.data
@@ -128,7 +134,11 @@ export const adminPostServiceType = formData => async dispatch => {
     }
   };
   try {
-    const res = await axios.post('/api/admin/serviceType', formData, config);
+    const res = await axios.post(
+      `${proxy}/api/admin/serviceType`,
+      formData,
+      config
+    );
     dispatch({
       type: ADMINPOSTSERVICETYPE,
       payload: res.data
@@ -157,7 +167,7 @@ export const adminPostRole = formData => async dispatch => {
     }
   };
   try {
-    const res = await axios.post('/api/admin/role', formData, config);
+    const res = await axios.post(`${proxy}/api/admin/role`, formData, config);
     dispatch({
       type: ADMINPOSTROLE,
       payload: res.data

@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
+import proxy from '../utils/proxy';
+
 import {
   GETLANGUAGESFAIL,
   GETSERVICETYPESFAIL,
@@ -11,7 +13,7 @@ import {
 
 export const getLanguages = () => async dispatch => {
   try {
-    const res = await axios.get('/api/users/language');
+    const res = await axios.get(`${proxy}/api/users/language`);
     dispatch({
       type: GETLANGUAGES,
       payload: res.data
@@ -28,7 +30,7 @@ export const getLanguages = () => async dispatch => {
 
 export const getServiceTypes = () => async dispatch => {
   try {
-    const res = await axios.get('/api/users/serviceType');
+    const res = await axios.get(`${proxy}/api/users/serviceType`);
     dispatch({
       type: GETSERVICETYPES,
       payload: res.data
@@ -42,7 +44,7 @@ export const getServiceTypes = () => async dispatch => {
 
 export const getRoles = () => async dispatch => {
   try {
-    const res = await axios.get('/api/users/role');
+    const res = await axios.get(`${proxy}/api/users/role`);
     dispatch({
       type: GETROLES,
       payload: res.data

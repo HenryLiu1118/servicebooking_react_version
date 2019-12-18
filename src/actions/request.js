@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
+import proxy from '../utils/proxy';
+
 import {
   GETREQUESTS,
   REQUESTS_FAIL,
@@ -19,7 +21,11 @@ export const UpdateRequest = (
       'Content-Type': 'application/json'
     }
   };
-  const res = await axios.put(`/api/request/id/${requestId}`, formData, config);
+  const res = await axios.put(
+    `${proxy}/api/request/id/${requestId}`,
+    formData,
+    config
+  );
 
   try {
     dispatch({
@@ -51,7 +57,7 @@ export const PostRequest = (formData, history) => async dispatch => {
       'Content-Type': 'application/json'
     }
   };
-  const res = await axios.post('/api/request', formData, config);
+  const res = await axios.post(`${proxy}/api/request`, formData, config);
 
   try {
     dispatch({
@@ -85,7 +91,7 @@ export const GetRequests = (
   limit
 ) => async dispatch => {
   try {
-    let URL = '/api/request/';
+    let URL = `${proxy}/api/request/`;
     if (userRole === 'Customer') {
       URL += 'me';
     } else if (userRole === 'Service') {

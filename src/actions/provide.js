@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { setAlert } from './alert';
+import proxy from '../utils/proxy';
+
 import {
   GETMYPROVIDE,
   GETMYPROVIDE_FAIL,
@@ -14,7 +16,7 @@ export const getProvides = (
   limit
 ) => async dispatch => {
   try {
-    let URL = '/api/provider/';
+    let URL = `${proxy}/api/provider/`;
     if (provideName !== 'All' && languageName !== 'All') {
       URL += `${provideName}/${languageName}`;
     } else if (provideName !== 'All') {
@@ -54,7 +56,7 @@ export const getProvides = (
 
 export const getMyProvide = () => async dispatch => {
   try {
-    const res = await axios.get('/api/provider/me');
+    const res = await axios.get(`${proxy}/api/provider/me`);
     dispatch({
       type: GETMYPROVIDE,
       payload: res.data
@@ -83,7 +85,11 @@ export const updateMyService = (formData, history) => async dispatch => {
     }
   };
   try {
-    const res = await axios.post('/api/provider/update', formData, config);
+    const res = await axios.post(
+      `${proxy}/api/provider/update`,
+      formData,
+      config
+    );
     console.log(res);
     dispatch({
       type: GETMYPROVIDE,

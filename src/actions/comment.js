@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { setAlert } from './alert';
+import proxy from '../utils/proxy';
 
 import {
   GETCOMMENTS_FAIL,
@@ -11,7 +12,7 @@ import {
 
 export const getComments = requestId => async dispatch => {
   try {
-    const res = await axios.get(`/api/comment/get/${requestId}`);
+    const res = await axios.get(`${proxy}/api/comment/get/${requestId}`);
 
     dispatch({
       type: GETCOMMENTS,
@@ -35,7 +36,7 @@ export const postComment = (formData, requestId) => async dispatch => {
   };
   try {
     const res = await axios.post(
-      `/api/comment/post/${requestId}`,
+      `${proxy}/api/comment/post/${requestId}`,
       formData,
       config
     );
@@ -65,7 +66,7 @@ export const postComment = (formData, requestId) => async dispatch => {
 
 export const checkDuplicateComment = requestId => async dispatch => {
   try {
-    const res = await axios.get(`/api/comment/check/${requestId}`);
+    const res = await axios.get(`${proxy}/api/comment/check/${requestId}`);
     dispatch({
       type: GETCOMMENT,
       payload: res.data
