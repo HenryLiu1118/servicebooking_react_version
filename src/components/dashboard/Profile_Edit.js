@@ -1,12 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getLanguages } from '../../actions/userUtil';
 import { updateProfile } from '../../actions/auth';
 
 const Profile_Edit = ({
-  user,
+  auth: { user, loading },
   languages,
-  getLanguages,
   updateProfile,
   history
 }) => {
@@ -22,7 +20,6 @@ const Profile_Edit = ({
   });
 
   useEffect(() => {
-    getLanguages();
     if (user) {
       setFormData({
         firstname: user.firstname,
@@ -47,7 +44,11 @@ const Profile_Edit = ({
     e.preventDefault();
     updateProfile(formData, history);
   };
-  return (
+  return loading ? (
+    <div>
+      <h1>Loading...</h1>
+    </div>
+  ) : (
     <Fragment>
       <div className="container">
         <form
@@ -159,10 +160,8 @@ const Profile_Edit = ({
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  auth: state.auth,
   languages: state.userUtil.languages
 });
 
-export default connect(mapStateToProps, { getLanguages, updateProfile })(
-  Profile_Edit
-);
+export default connect(mapStateToProps, { updateProfile })(Profile_Edit);

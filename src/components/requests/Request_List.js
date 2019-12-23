@@ -2,17 +2,14 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import RequestItem from './Request_Item';
 import { GetRequests } from '../../actions/request';
-import { getServiceTypes, getLanguages } from '../../actions/userUtil';
 import { withRouter } from 'react-router-dom';
 import './Request_List.css';
 
 const Request_List = ({
   auth: { user },
-  request: { requests, size },
+  request: { requests, size, loading },
   userUtil: { languages, serviceTypes },
   GetRequests,
-  getServiceTypes,
-  getLanguages,
   match,
   history
 }) => {
@@ -26,8 +23,6 @@ const Request_List = ({
 
   useEffect(() => {
     GetRequests(user.role, provideType, language, page, 2);
-    getServiceTypes();
-    getLanguages();
     // eslint-disable-next-line
   }, [page, language, provideType]);
 
@@ -44,7 +39,11 @@ const Request_List = ({
     }
   };
 
-  return (
+  return loading ? (
+    <div>
+      <h1>Loading...</h1>
+    </div>
+  ) : (
     <Fragment>
       <div>
         {user && user.role === 'Customer' && (
@@ -164,7 +163,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  GetRequests,
-  getServiceTypes,
-  getLanguages
+  GetRequests
 })(withRouter(Request_List));

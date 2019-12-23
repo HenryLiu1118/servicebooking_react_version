@@ -5,12 +5,14 @@ import {
   POSTREQUEST,
   POSTREQUEST_FAIL,
   UPDATEREQUEST_FAIL,
-  UPDATEREQUEST
+  UPDATEREQUEST,
+  SET_REQUESTLOADING
 } from '../actions/types';
 
 const initialState = {
   requests: [],
-  size: 0
+  size: 0,
+  loading: false
 };
 
 export default function(state = initialState, action) {
@@ -19,29 +21,41 @@ export default function(state = initialState, action) {
     case GETREQUESTS:
       return {
         requests: payload.requestDtoList,
-        size: payload.size
+        size: payload.size,
+        loading: false
       };
     case REQUESTS_FAIL:
     case CLEAR_REQUESTS:
       return {
         requests: [],
-        size: 0
+        size: 0,
+        loading: false
       };
     case POSTREQUEST:
       return {
         ...state,
-        size: state.size + 1
+        size: state.size + 1,
+        loading: false
       };
     case UPDATEREQUEST:
       return {
         ...state,
         requests: state.requests.map(request =>
           request.requestId === payload.requestId ? payload : request
-        )
+        ),
+        loading: false
       };
     case UPDATEREQUEST_FAIL:
     case POSTREQUEST_FAIL:
-      return state;
+      return {
+        ...state,
+        loading: false
+      };
+    case SET_REQUESTLOADING:
+      return {
+        ...state,
+        loading: true
+      };
     default:
       return state;
   }

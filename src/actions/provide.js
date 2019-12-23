@@ -6,7 +6,8 @@ import {
   GETMYPROVIDE,
   GETMYPROVIDE_FAIL,
   GETPROVIDES_FAIL,
-  GETPROVIDES
+  GETPROVIDES,
+  SET_PROVIDELOADING
 } from './types';
 
 export const getProvides = (
@@ -25,6 +26,8 @@ export const getProvides = (
       URL += `language/${languageName}`;
     }
     URL += '?page=' + page + '&limit=' + limit;
+
+    dispatch(setLoading());
     const res = await axios.get(URL);
     dispatch({
       type: GETPROVIDES,
@@ -56,6 +59,7 @@ export const getProvides = (
 
 export const getMyProvide = () => async dispatch => {
   try {
+    dispatch(setLoading());
     const res = await axios.get(`${proxy}/api/provider/me`);
     dispatch({
       type: GETMYPROVIDE,
@@ -85,6 +89,7 @@ export const updateMyService = (formData, history) => async dispatch => {
     }
   };
   try {
+    dispatch(setLoading());
     const res = await axios.post(
       `${proxy}/api/provider/update`,
       formData,
@@ -113,4 +118,10 @@ export const updateMyService = (formData, history) => async dispatch => {
       type: GETMYPROVIDE_FAIL
     });
   }
+};
+
+const setLoading = () => dispatch => {
+  dispatch({
+    type: SET_PROVIDELOADING
+  });
 };

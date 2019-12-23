@@ -4,14 +4,16 @@ import {
   LOGIN_SUCCESS,
   REGISTER_FAIL,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  SET_LOADING
 } from '../actions/types';
 import setAuthToken from '../utils/setAuthToken';
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
-  user: null
+  user: null,
+  loading: false
 };
 
 export default function(state = initialState, action) {
@@ -22,7 +24,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isAuthenticated: true,
-        user: payload
+        user: payload,
+        loading: false
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -32,7 +35,8 @@ export default function(state = initialState, action) {
         ...state,
         token: payload.token,
         user: payload.user,
-        isAuthenticated: true
+        isAuthenticated: true,
+        loading: false
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
@@ -42,7 +46,13 @@ export default function(state = initialState, action) {
         ...state,
         token: null,
         isAuthenticated: false,
-        user: null
+        user: null,
+        loading: false
+      };
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;

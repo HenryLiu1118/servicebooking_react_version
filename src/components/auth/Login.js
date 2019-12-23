@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ login, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -22,7 +22,12 @@ const Login = ({ login, isAuthenticated }) => {
   if (isAuthenticated) {
     return <Redirect to="/dashboard/profile" />;
   }
-  return (
+
+  return loading ? (
+    <div>
+      <h1>Loading...</h1>
+    </div>
+  ) : (
     <Fragment>
       <div className="login-form">
         <form
@@ -93,7 +98,7 @@ const Login = ({ login, isAuthenticated }) => {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { login })(Login);

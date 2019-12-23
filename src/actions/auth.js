@@ -13,7 +13,8 @@ import {
   CLEARUSERUTIL,
   CLEAR_PROVIDE,
   CLEAR_REQUESTS,
-  CLEARADMIN
+  CLEARADMIN,
+  SET_LOADING
 } from './types';
 
 export const loadUser = () => async dispatch => {
@@ -22,6 +23,7 @@ export const loadUser = () => async dispatch => {
   }
 
   try {
+    dispatch(setLoading());
     const res = await axios.get(`${proxy}/api/userinfo/me`);
     dispatch({
       type: USER_LOAD,
@@ -43,6 +45,7 @@ export const login = (username, password) => async dispatch => {
   const body = JSON.stringify({ username, password });
 
   try {
+    dispatch(setLoading());
     const res = await axios.post(`${proxy}/api/users/login`, body, config);
 
     dispatch({
@@ -76,6 +79,7 @@ export const register = (formData, history) => async dispatch => {
   };
 
   try {
+    dispatch(setLoading());
     const res = await axios.post(
       `${proxy}/api/users/register`,
       formData,
@@ -112,6 +116,7 @@ export const updateProfile = (formData, history) => async dispatch => {
         'Content-Type': 'application/json'
       }
     };
+    dispatch(setLoading());
     const res = await axios.put(`${proxy}/api/userinfo`, formData, config);
     dispatch({
       type: USER_LOAD,
@@ -142,4 +147,10 @@ export const logout = () => dispatch => {
   dispatch({ type: CLEAR_PROVIDE });
   dispatch({ type: CLEAR_REQUESTS });
   dispatch({ type: CLEARADMIN });
+};
+
+const setLoading = () => dispatch => {
+  dispatch({
+    type: SET_LOADING
+  });
 };

@@ -1,15 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { getLanguages, getRoles } from '../../actions/userUtil';
 import { register } from '../../actions/auth';
 
-const Register = ({
-  userUtil: { languages, roles },
-  getLanguages,
-  getRoles,
-  register,
-  history
-}) => {
+const Register = ({ userUtil: { languages, roles }, register, history }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -37,12 +30,6 @@ const Register = ({
     role,
     language
   } = formData;
-
-  useEffect(() => {
-    getLanguages();
-    getRoles();
-    // eslint-disable-next-line
-  }, []);
 
   const onChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -257,7 +244,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  register,
-  getLanguages,
-  getRoles
+  register
 })(Register);

@@ -2,59 +2,35 @@ import axios from 'axios';
 import { setAlert } from './alert';
 import proxy from '../utils/proxy';
 
-import {
-  GETLANGUAGESFAIL,
-  GETSERVICETYPESFAIL,
-  GETLANGUAGES,
-  GETSERVICETYPES,
-  GETROLES,
-  GETROLESFAIL
-} from './types';
+import { GETUTILDATA, GETUTILDATA_FAIL, SET_UTILLOADING } from './types';
 
-export const getLanguages = () => async dispatch => {
+export const getUtilData = () => async dispatch => {
   try {
-    const res = await axios.get(`${proxy}/api/users/language`);
+    dispatch(setLoading());
+    const res1 = await axios.get(`${proxy}/api/users/language`);
+    const res2 = await axios.get(`${proxy}/api/users/serviceType`);
+    const res3 = await axios.get(`${proxy}/api/users/role`);
+
+    const res = {
+      language: res1.data,
+      serviceType: res2.data,
+      role: res3.data
+    };
+
     dispatch({
-      type: GETLANGUAGES,
-      payload: res.data
+      type: GETUTILDATA,
+      payload: res
     });
   } catch (err) {
     const error = err.response.data.error;
     dispatch(setAlert(error, 'danger'));
 
     dispatch({
-      type: GETLANGUAGESFAIL
+      type: GETUTILDATA_FAIL
     });
   }
 };
 
-export const getServiceTypes = () => async dispatch => {
-  try {
-    const res = await axios.get(`${proxy}/api/users/serviceType`);
-    dispatch({
-      type: GETSERVICETYPES,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: GETSERVICETYPESFAIL
-    });
-  }
-};
-
-export const getRoles = () => async dispatch => {
-  try {
-    const res = await axios.get(`${proxy}/api/users/role`);
-    dispatch({
-      type: GETROLES,
-      payload: res.data
-    });
-  } catch (err) {
-    const error = err.response.data.error;
-    dispatch(setAlert(error, 'danger'));
-
-    dispatch({
-      type: GETROLESFAIL
-    });
-  }
+const setLoading = () => dispatch => {
+  dispatch({ type: SET_UTILLOADING });
 };

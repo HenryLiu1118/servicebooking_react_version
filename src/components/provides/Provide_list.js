@@ -2,15 +2,12 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ProvideItem from './Provide_Item';
-import { getServiceTypes, getLanguages } from '../../actions/userUtil';
 import { getProvides } from '../../actions/provide';
 import '../requests/Request_List.css';
 
 const Provide_list = ({
-  provide: { provides, size },
+  provide: { provides, size, loading },
   userUtil: { languages, serviceTypes },
-  getServiceTypes,
-  getLanguages,
   getProvides
 }) => {
   const [filterData, setData] = useState({
@@ -23,8 +20,6 @@ const Provide_list = ({
 
   useEffect(() => {
     getProvides(provideType, language, page, 2);
-    getServiceTypes();
-    getLanguages();
     // eslint-disable-next-line
   }, [page, language, provideType]);
 
@@ -36,7 +31,11 @@ const Provide_list = ({
     }
   };
 
-  return (
+  return loading ? (
+    <div>
+      <h1>Loading...</h1>
+    </div>
+  ) : (
     <Fragment>
       <div className="py-1">
         <span>Service Type: </span>
@@ -138,7 +137,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getServiceTypes,
-  getLanguages,
   getProvides
 })(withRouter(Provide_list));

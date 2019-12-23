@@ -1,11 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getServiceTypes } from '../../actions/userUtil';
 import { updateMyService } from '../../actions/provide';
 
 const Profile_Service_Edit = ({
-  provide: { myProvide },
-  getServiceTypes,
+  provide: { myProvide, loading },
   updateMyService,
   serviceTypes,
   history
@@ -17,7 +15,6 @@ const Profile_Service_Edit = ({
   });
 
   useEffect(() => {
-    getServiceTypes();
     if (myProvide) {
       setFormData({
         detail: myProvide.detail,
@@ -37,7 +34,11 @@ const Profile_Service_Edit = ({
     e.preventDefault();
     updateMyService(formData, history);
   };
-  return (
+  return loading ? (
+    <div>
+      <h1>Loading...</h1>
+    </div>
+  ) : (
     <Fragment>
       <div className="container center_div">
         <form
@@ -113,6 +114,6 @@ const mapStateToProps = state => ({
   provide: state.provide
 });
 
-export default connect(mapStateToProps, { getServiceTypes, updateMyService })(
+export default connect(mapStateToProps, { updateMyService })(
   Profile_Service_Edit
 );

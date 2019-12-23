@@ -1,65 +1,48 @@
 import {
-  GETLANGUAGES,
-  GETLANGUAGESFAIL,
-  GETSERVICETYPES,
-  GETSERVICETYPESFAIL,
-  GETROLES,
-  GETROLESFAIL,
-  CLEARUSERUTIL
+  CLEARUSERUTIL,
+  GETUTILDATA_FAIL,
+  GETUTILDATA,
+  SET_UTILLOADING
 } from '../actions/types';
 
 const initialState = {
   languages: [],
   serviceTypes: [],
-  roles: []
+  roles: [],
+  utilLoading: false
 };
 
 export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case GETLANGUAGES:
+    case GETUTILDATA:
       return {
         ...state,
-        languages: payload.map(item => {
+        languages: payload.language.map(item => {
           return item.name;
-        })
-      };
-    case GETSERVICETYPES:
-      return {
-        ...state,
-        serviceTypes: payload.map(item => {
+        }),
+        serviceTypes: payload.serviceType.map(item => {
           return item.name;
-        })
-      };
-    case GETLANGUAGESFAIL:
-      return {
-        ...state,
-        languages: []
-      };
-    case GETSERVICETYPESFAIL:
-      return {
-        ...state,
-        serviceTypes: []
-      };
-    case GETROLES:
-      return {
-        ...state,
-        roles: payload.map(item => {
+        }),
+        roles: payload.role.map(item => {
           return item.name;
-        })
+        }),
+        utilLoading: false
       };
-    case GETROLESFAIL:
-      return {
-        ...state,
-        roles: []
-      };
+    case GETUTILDATA_FAIL:
     case CLEARUSERUTIL:
       return {
         ...state,
         roles: [],
         languages: [],
-        serviceTypes: []
+        serviceTypes: [],
+        utilLoading: false
+      };
+    case SET_UTILLOADING:
+      return {
+        ...state,
+        utilLoading: true
       };
     default:
       return state;

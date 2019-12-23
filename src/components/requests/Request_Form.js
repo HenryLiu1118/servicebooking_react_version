@@ -1,13 +1,11 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getServiceTypes } from '../../actions/userUtil';
 import { PostRequest, UpdateRequest } from '../../actions/request';
 import { withRouter } from 'react-router-dom';
 
 const Request_Form = ({
   serviceTypes,
-  request: { requests },
-  getServiceTypes,
+  request: { requests, loading },
   PostRequest,
   UpdateRequest,
   match,
@@ -26,7 +24,6 @@ const Request_Form = ({
   const { editMode, requestId } = urlData;
 
   useEffect(() => {
-    getServiceTypes();
     if (match.params.id) {
       let ids = match.params.id.split('|');
       let index = +ids[0];
@@ -61,7 +58,9 @@ const Request_Form = ({
     }
   };
 
-  return (
+  return loading ? (
+    <Fragment></Fragment>
+  ) : (
     <Fragment>
       <div className="container bg-white shadow-sm">
         <form className="px-3 py-3" onSubmit={e => onSubmit(e)}>
@@ -128,7 +127,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
-  getServiceTypes,
   PostRequest,
   UpdateRequest
 })(withRouter(Request_Form));

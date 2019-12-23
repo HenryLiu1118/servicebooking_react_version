@@ -8,7 +8,8 @@ import {
   POSTREQUEST_FAIL,
   POSTREQUEST,
   UPDATEREQUEST,
-  UPDATEREQUEST_FAIL
+  UPDATEREQUEST_FAIL,
+  SET_REQUESTLOADING
 } from './types';
 
 export const UpdateRequest = (
@@ -21,6 +22,7 @@ export const UpdateRequest = (
       'Content-Type': 'application/json'
     }
   };
+  dispatch(setLoading());
   const res = await axios.put(
     `${proxy}/api/request/id/${requestId}`,
     formData,
@@ -57,6 +59,7 @@ export const PostRequest = (formData, history) => async dispatch => {
       'Content-Type': 'application/json'
     }
   };
+  dispatch(setLoading());
   const res = await axios.post(`${proxy}/api/request`, formData, config);
 
   try {
@@ -106,6 +109,8 @@ export const GetRequests = (
       }
     }
     URL += '?page=' + page + '&limit=' + limit;
+
+    dispatch(setLoading());
     const res = await axios.get(URL);
     dispatch({
       type: GETREQUESTS,
@@ -126,4 +131,10 @@ export const GetRequests = (
       type: REQUESTS_FAIL
     });
   }
+};
+
+const setLoading = () => dispatch => {
+  dispatch({
+    type: SET_REQUESTLOADING
+  });
 };

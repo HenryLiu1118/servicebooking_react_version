@@ -4,12 +4,13 @@ import { getMyProvide } from '../../actions/provide';
 
 const Profile = ({
   auth: { user },
-  provide: { myProvide },
+  provide: { myProvide, loading },
+  userUtil: { utilLoading },
   getMyProvide,
   history
 }) => {
   useEffect(() => {
-    if (user && user.role === 'Service') {
+    if (!myProvide && user && user.role === 'Service') {
       getMyProvide();
     }
     // eslint-disable-next-line
@@ -22,7 +23,11 @@ const Profile = ({
     history.push('/requests');
   };
 
-  return (
+  return utilLoading ? (
+    <div>
+      <h1>Loading...</h1>
+    </div>
+  ) : (
     <Fragment>
       <div className="card center_div">
         <div className="card-header card_header_color text-white">
@@ -69,41 +74,47 @@ const Profile = ({
           {user.role === 'Service' && (
             <Fragment>
               <div className="card-body">
-                {myProvide ? (
+                {loading ? (
+                  <div>My Provide Information Loading...</div>
+                ) : (
                   <Fragment>
-                    <div className="row">
-                      <div className="col-3">
-                        <div className="h6 pt-3">Service type:</div>
-                        <div className="h6 pt-4">Price:</div>
-                        <div className="h6 pt-4">Detail:</div>
+                    {myProvide ? (
+                      <Fragment>
+                        <div className="row">
+                          <div className="col-3">
+                            <div className="h6 pt-3">Service type:</div>
+                            <div className="h6 pt-4">Price:</div>
+                            <div className="h6 pt-4">Detail:</div>
+                          </div>
+                          <div className="col">
+                            <div className="h6 pt-3 text-secondary">
+                              {myProvide.servicetype}
+                            </div>
+                            <div className="h6 pt-4 text-secondary">
+                              {myProvide.price}
+                            </div>
+                            <div className="h6 pt-4 text-secondary">
+                              {myProvide.detail}
+                            </div>
+                          </div>
+                        </div>
+                      </Fragment>
+                    ) : (
+                      <div className="text-danger text-center pt-3">
+                        Please fill your service information.
                       </div>
-                      <div className="col">
-                        <div className="h6 pt-3 text-secondary">
-                          {myProvide.servicetype}
-                        </div>
-                        <div className="h6 pt-4 text-secondary">
-                          {myProvide.price}
-                        </div>
-                        <div className="h6 pt-4 text-secondary">
-                          {myProvide.detail}
-                        </div>
-                      </div>
+                    )}
+                    <div className="text-right pt-4">
+                      <button
+                        type="button"
+                        className="btn btn_background text-light btn-sm py-1 px-2"
+                        onClick={onEditService}
+                      >
+                        Update my Service
+                      </button>
                     </div>
                   </Fragment>
-                ) : (
-                  <div className="text-danger text-center pt-3">
-                    Please fill your service information.
-                  </div>
                 )}
-              </div>
-              <div className="text-right pt-4">
-                <button
-                  type="button"
-                  className="btn btn_background text-light btn-sm py-1 px-2"
-                  onClick={onEditService}
-                >
-                  Update my Service
-                </button>
               </div>
             </Fragment>
           )}
@@ -115,7 +126,8 @@ const Profile = ({
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  provide: state.provide
+  provide: state.provide,
+  userUtil: state.userUtil
 });
 
 export default connect(mapStateToProps, { getMyProvide })(Profile);

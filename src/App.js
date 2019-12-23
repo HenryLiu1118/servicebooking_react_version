@@ -6,6 +6,7 @@ import './App.css';
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
+import { getUtilData } from './actions/userUtil';
 import setAuthToken from './utils/setAuthToken';
 
 import Routes from './components/routing/Routes';
@@ -17,6 +18,7 @@ if (localStorage.token) {
 function App() {
   useEffect(() => {
     store.dispatch(loadUser());
+    store.dispatch(getUtilData());
   }, []);
   return (
     <Provider store={store}>
