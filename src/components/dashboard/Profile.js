@@ -1,15 +1,18 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getMyProvide } from '../../actions/provide';
+import { getUtilData } from '../../actions/userUtil';
 
 const Profile = ({
   auth: { user },
   provide: { myProvide, loading },
   userUtil: { utilLoading },
+  getUtilData,
   getMyProvide,
   history
 }) => {
   useEffect(() => {
+    getUtilData();
     if (!myProvide && user && user.role === 'Service') {
       getMyProvide();
     }
@@ -130,4 +133,4 @@ const mapStateToProps = state => ({
   userUtil: state.userUtil
 });
 
-export default connect(mapStateToProps, { getMyProvide })(Profile);
+export default connect(mapStateToProps, { getMyProvide, getUtilData })(Profile);
