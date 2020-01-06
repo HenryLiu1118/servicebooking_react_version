@@ -31,7 +31,6 @@ const Request_List = ({
   };
 
   const onChange = e => {
-    console.log(e.target.name);
     if (e.target.name !== 'page') {
       setData({ ...filterData, [e.target.name]: e.target.value, page: 0 });
     } else {

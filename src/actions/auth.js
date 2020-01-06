@@ -1,5 +1,6 @@
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
+import {getUtilData} from './userUtil'
 import { setAlert } from './alert';
 import proxy from '../utils/proxy';
 
@@ -25,6 +26,7 @@ export const loadUser = () => async dispatch => {
   try {
     dispatch(setLoading());
     const res = await axios.get(`${proxy}/api/userinfo/me`);
+    
     dispatch({
       type: USER_LOAD,
       payload: res.data
@@ -53,6 +55,7 @@ export const login = (username, password) => async dispatch => {
       payload: res.data
     });
 
+    dispatch(getUtilData());
     dispatch(setAlert('Login Successfully!', 'success'));
   } catch (err) {
     const error = err.response.data.error;
